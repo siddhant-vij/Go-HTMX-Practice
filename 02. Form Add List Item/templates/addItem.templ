@@ -1,0 +1,23 @@
+package templates
+
+templ AddItemForm() {
+	<form>
+		<input type="text" id="note" name="note"/>
+		<button
+			hx-post="/addNote"
+			hx-trigger="click"
+			hx-target="#notes"
+			hx-swap="beforeend"
+		>
+			Save Note
+		</button>
+	</form>
+}
+
+templ DisplayListResponse(item string) {
+	<li>{ item }</li>
+}
+
+templ FormResponseOOB() {
+	<input type="text" id="note" name="note" hx-swap-oob="true"/>
+}

@@ -1,0 +1,34 @@
+package templates
+
+templ Page(items []string) {
+	<!DOCTYPE html>
+	<html lang="en">
+		<head>
+			<meta charset="UTF-8"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+			<link rel="stylesheet" href="/static/css/styles.css"/>
+			<script src="/static/js/htmx.min.js" defer></script>
+			<title>Form Add List Item</title>
+		</head>
+		<body>
+			<header id="main-header">
+				<img src="/static/assets/htmx-logo.jpg" alt="HTMX Logo"/>
+				<h1>Essentials</h1>
+			</header>
+			<main>
+				<p>Add a note to the list:</p>
+				@AddItemForm()
+				<p>HTMX is a JavaScript library that you use without writing JavaScript code.</p>
+				@ListOfNotes(&items)
+			</main>
+		</body>
+	</html>
+}
+
+templ ListOfNotes(items *[]string) {
+	<ul id="notes">
+		for _, item := range *items {
+			<li>{ item }</li>
+		}
+	</ul>
+}
