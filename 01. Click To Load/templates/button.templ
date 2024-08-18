@@ -1,0 +1,20 @@
+package templates
+
+templ Button() {
+	<button
+		hx-get="/data"
+		hx-trigger="click once"
+    hx-target="main"
+		hx-swap="beforeend"
+	>
+		Learn More
+	</button>
+}
+
+templ DisplayResponse(items []string) {
+	<ul>
+		for _, item := range items {
+			<li>{ item }</li>
+		}
+	</ul>
+}

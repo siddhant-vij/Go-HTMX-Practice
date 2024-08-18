@@ -1,0 +1,24 @@
+package templates
+
+templ Page() {
+	<!DOCTYPE html>
+	<html lang="en">
+		<head>
+			<meta charset="UTF-8"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+			<link rel="stylesheet" href="/static/css/styles.css"/>
+			<script src="/static/js/htmx.min.js" defer></script>
+			<title>Click To Load</title>
+		</head>
+		<body>
+			<header id="main-header">
+				<img src="/static/assets/htmx-logo.jpg" alt="HTMX Logo"/>
+				<h1>Essentials</h1>
+			</header>
+			<main>
+				<p>HTMX is a JavaScript library that you use without writing JavaScript code.</p>
+				@Button()
+			</main>
+		</body>
+	</html>
+}
