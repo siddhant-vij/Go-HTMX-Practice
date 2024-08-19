@@ -1,0 +1,87 @@
+package templates
+
+import "fmt"
+
+templ GoalForm() {
+	<section>
+		<form
+			id="goal-form"
+			hx-on::after-request="this.reset()"
+		>
+			<div>
+				<label htmlFor="goal">Goal</label>
+				<input type="text" id="goal" name="goal"/>
+			</div>
+			<button
+				type="submit"
+				hx-post="/addGoal"
+				hx-trigger="click"
+				hx-target="#goals"
+				hx-swap="beforeend"
+			>
+				Add Goal
+			</button>
+		</form>
+	</section>
+}
+
+templ DisplayGoals(courseGoals *[]CourseGoal) {
+	<section>
+		<ul id="goals">
+			for _, goal := range *courseGoals {
+				@DisplayGoal(goal.Index, goal.Goal)
+			}
+		</ul>
+	</section>
+}
+
+templ DisplayGoal(idx, goal string) {
+	<li>
+		<span>{ goal }</span>
+		<div class="buttons">
+			<button
+				hx-get={ fmt.Sprintf("/editGoal?idx=%s", idx) }
+				hx-trigger="click"
+				hx-target="closest li"
+				hx-swap="outerHTML"
+			>
+				Edit
+			</button>
+			<button
+				hx-delete={ fmt.Sprintf("/removeGoal?idx=%s", idx) }
+				hx-trigger="click"
+				hx-target="closest li"
+				hx-confirm="Are you sure?"
+				hx-swap="delete"
+			>
+				Remove
+			</button>
+		</div>
+	</li>
+}
+
+templ EditFormDisplay(idx, goal string) {
+	<li>
+		<form>
+			<input type="text" name="goal" value={ goal }/>
+			<button
+				type="submit"
+				hx-put={ fmt.Sprintf("/updateGoal?idx=%s", idx) }
+				hx-trigger="click"
+				hx-target="closest li"
+				hx-swap="outerHTML"
+			>
+				Save
+			</button>
+			<button
+				type="submit"
+				hx-get={ fmt.Sprintf("/cancelEdit?idx=%s", idx) }
+				hx-trigger="click"
+				hx-target="closest li"
+				hx-swap="outerHTML"
+			>
+				Cancel
+			</button>
+		</form>
+	</li>
+}

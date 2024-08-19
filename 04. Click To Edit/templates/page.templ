@@ -1,0 +1,26 @@
+package templates
+
+type CourseGoal struct {
+	Index string
+	Goal  string
+}
+
+templ Page(courseGoals []CourseGoal) {
+	<!DOCTYPE html>
+	<html lang="en">
+		<head>
+			<meta charset="UTF-8"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+			<link rel="stylesheet" href="/static/css/styles.css"/>
+			<script src="/static/js/htmx.min.js" defer></script>
+			<title>Goal Manager</title>
+		</head>
+		<body>
+			<main>
+				<h1>Manage your course goals</h1>
+				@GoalForm()
+				@DisplayGoals(&courseGoals)
+			</main>
+		</body>
+	</html>
+}
