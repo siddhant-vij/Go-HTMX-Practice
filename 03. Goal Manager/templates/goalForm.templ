@@ -1,0 +1,51 @@
+package templates
+
+import "fmt"
+
+templ GoalForm() {
+	<section>
+		<form
+			id="goal-form"
+			hx-on::after-request="this.reset()"
+		>
+			<div>
+				<label htmlFor="goal">Goal</label>
+				<input type="text" id="goal" name="goal"/>
+			</div>
+			<button
+				type="submit"
+				hx-post="/addGoal"
+				hx-trigger="click"
+				hx-target="#goals"
+				hx-swap="beforeend"
+			>
+				Add Goal
+			</button>
+		</form>
+	</section>
+}
+
+templ DisplayGoals(courseGoals *[]CourseGoal) {
+	<section>
+		<ul id="goals">
+			for _, goal := range *courseGoals {
+				@DisplayGoal(goal.Index, goal.Goal)
+			}
+		</ul>
+	</section>
+}
+
+templ DisplayGoal(idx, goal string) {
+	<li>
+		<span>{ goal }</span>
+		<button
+			hx-delete={ fmt.Sprintf("/removeGoal?idx=%s", idx) }
+			hx-trigger="click"
+			hx-target="closest li"
+			hx-confirm="Are you sure?"
+			hx-swap="delete"
+		>
+			Remove
+		</button>
+	</li>
+}
