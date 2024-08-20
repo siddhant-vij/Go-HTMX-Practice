@@ -28,10 +28,6 @@ func main() {
 					if listItem == item {
 						leftList = append(leftList[:i], leftList[i+1:]...)
 						rightList = append(rightList, item)
-
-						listItemDisp := templates.DisplayListItem(item, "left")
-						listItemDisp.Render(r.Context(), w)
-
 						listItemUpd := templates.UpdateListItem(item, "right")
 						listItemUpd.Render(r.Context(), w)
 						break
@@ -42,10 +38,6 @@ func main() {
 					if listItem == item {
 						rightList = append(rightList[:i], rightList[i+1:]...)
 						leftList = append(leftList, item)
-
-						listItemDisp := templates.DisplayListItem(item, "right")
-						listItemDisp.Render(r.Context(), w)
-
 						listItemUpd := templates.UpdateListItem(item, "left")
 						listItemUpd.Render(r.Context(), w)
 						break

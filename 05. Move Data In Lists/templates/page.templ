@@ -59,9 +59,7 @@ templ UpdateListItem(item, curList string) {
 	<div
 		hx-swap-oob={ fmt.Sprintf("beforeend:#%sList", curList) }
 	>
-		<div>
-			@Button(item, curList)
-		</div>
+		@DisplayListItem(item, curList)
 	</div>
 }
 
