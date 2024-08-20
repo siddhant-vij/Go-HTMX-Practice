@@ -1,0 +1,78 @@
+package templates
+
+import "fmt"
+
+templ Page(list1, list2 []string) {
+	<!DOCTYPE html>
+	<html lang="en">
+		<head>
+			<meta charset="UTF-8"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+			<script src="/static/htmx.min.js" defer></script>
+			<title>Move Data In Lists</title>
+		</head>
+		<body>
+			@DisplayLists(list1, list2)
+		</body>
+	</html>
+}
+
+templ DisplayLists(list1, list2 []string) {
+	<style>
+		.left, .right {
+			display: inline-block;
+			width: 49%;
+			vertical-align: top;
+		}
+		button {
+			background: none;
+			color: inherit;
+			border: none;
+			padding: 0;
+			font: inherit;
+			cursor: pointer;
+			outline: inherit;
+		}
+		ul {
+			list-style-type: none;
+		}
+	</style>
+	<div class="left" id="leftList">
+		for _, itemFromList1 := range list1 {
+			@DisplayListItem(itemFromList1, "left")
+		}
+	</div>
+	<div class="right" id="rightList">
+		for _, itemFromList2 := range list2 {
+			@DisplayListItem(itemFromList2, "right")
+		}
+	</div>
+}
+
+templ DisplayListItem(item, curList string) {
+	<div>
+		@Button(item, curList)
+	</div>
+}
+
+templ UpdateListItem(item, curList string) {
+	<div
+		hx-swap-oob={ fmt.Sprintf("beforeend:#%sList", curList) }
+	>
+		<div>
+			@Button(item, curList)
+		</div>
+	</div>
+}
+
+templ Button(item, curList string) {
+	<button
+		hx-delete={ fmt.Sprintf("/removeItem?item=%s", item) }
+		hx-trigger="click"
+		hx-target="closest div"
+		hx-swap="delete"
+		hx-vals={ fmt.Sprintf(`{"curList": "%s"}`, curList) }
+	>
+		{ item }
+	</button>
+}
