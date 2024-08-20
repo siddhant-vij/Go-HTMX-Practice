@@ -1,0 +1,33 @@
+package templates
+
+import "Dream_Locations/utils"
+
+templ Page(locations, dreamLocations, suggestedLocations []utils.Location) {
+	<!DOCTYPE html>
+	<html lang="en">
+		<head>
+			<meta charset="UTF-8"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+			<link rel="stylesheet" href="/static/css/styles.css"/>
+			<script src="/static/js/htmx.min.js" defer></script>
+			<script src="/static/js/modal.js" defer></script>
+			<script src="/static/js/suggested.js" defer></script>
+			<title>Dream Locations</title>
+		</head>
+		<body>
+			<header>
+				<img src="/static/logo.png" alt="Stylized globe"/>
+				<h1>PlacePicker</h1>
+				<p>
+					Create your personal collection of places you would like to visit or
+					you have visited.
+				</p>
+			</header>
+			<main>
+				@DreamLocations(&dreamLocations)
+				@SuggestedLocations(&suggestedLocations)
+				@Locations(&locations)
+			</main>
+		</body>
+	</html>
+}

@@ -1,0 +1,72 @@
+package templates
+
+import (
+	"Dream_Locations/utils"
+	"fmt"
+)
+
+templ SuggestedLocations(suggestedLocations *[]utils.Location) {
+	<section class="locations-category">
+		<h2>Top Suggested Locations</h2>
+		<ul id="suggestedList" class="locations">
+			for _, location := range *suggestedLocations {
+				@RenderLocation("suggested", &location)
+			}
+		</ul>
+	</section>
+}
+
+templ DreamLocations(dreamLocations *[]utils.Location) {
+	<section class="locations-category">
+		<h2>My Dream Locations</h2>
+		<ul id="dreamList" class="locations">
+			for _, location := range *dreamLocations {
+				@RenderLocation("dream", &location)
+			}
+		</ul>
+	</section>
+}
+
+templ Locations(locations *[]utils.Location) {
+	<section class="locations-category">
+		<h2>Other Available Locations</h2>
+		<ul id="availableList" class="locations">
+			for _, location := range *locations {
+				@RenderLocation("available", &location)
+			}
+		</ul>
+	</section>
+}
+
+templ RenderLocation(curList string, location *utils.Location) {
+	<li class="location-item">
+		@Button(location.Id, curList, location)
+	</li>
+}
+
+templ UpdateLocation(curList string, location *utils.Location) {
+	<div
+		hx-swap-oob={ fmt.Sprintf("beforeend:#%sList", curList) }
+	>
+		@RenderLocation(curList, location)
+	</div>
+}
+
+templ Button(locationId, curList string, location *utils.Location) {
+	<button
+		if curList == "dream" {
+			data-action="remove"
+		}
+		if curList == "suggested" {
+			data-action="add"
+		}
+		hx-delete={ fmt.Sprintf("/removeItem?item=%s", locationId) }
+		hx-trigger="click"
+		hx-target="closest li"
+		hx-swap="delete"
+		hx-vals={ fmt.Sprintf(`{"curList": "%s"}`, curList) }
+	>
+		<img src={ location.Image.Src } alt={ location.Image.Alt }/>
+		<h3>{ location.Title }</h3>
+	</button>
+}
